@@ -13,7 +13,8 @@
           <tbody>
             <tr v-for="user in users" :key="user.id">
               <td>
-                {{ user.name }}
+                <img :src="user.img" :alt="user.name">
+                <span>{{ user.name }}</span>
               </td>
               <td>
                 {{ user.age }}
@@ -30,19 +31,28 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   name: "Users",
   data() {
     return {
-      users: [
-        { id: 1, name: "Maks", age: 44, gender: "M" },
-        { id: 2, name: "Vita", age: 42, gender: "G" },
-      ],
+      users: [],
     };
+  },
+  created() {
+    axios
+      .get("https://tocode.ru/static/_secret/courses/1/usersCrmApi.php")
+      .then((res) => (this.users = res.data))
+      .catch((err) => console.log(err));
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  img {
+    width: 60px;
+    height: auto;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
 </style>
